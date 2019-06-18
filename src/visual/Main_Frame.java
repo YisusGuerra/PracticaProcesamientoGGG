@@ -7,6 +7,7 @@ package visual;
 
 import image_management.ImageFilters;
 import image_management.ImageManager;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -34,8 +35,8 @@ public class Main_Frame extends javax.swing.JFrame {
     private Mat m_tosave;
     private byte[] b_tosave;
     private String c_img_dir;
-    int previo_br, previo_ct, previo_gm = 0;
-    int actual_br, actual_ct, actual_gm = 0;
+    int previo_br, previo_ct, previo_gm, previo_averg = 0;
+    int actual_br, actual_ct, actual_gm, actual_averg = 0;
 
     public Main_Frame() {
         img_manager = new ImageManager();
@@ -73,6 +74,12 @@ public class Main_Frame extends javax.swing.JFrame {
         Check_neg = new javax.swing.JCheckBox();
         Chek_bin = new javax.swing.JCheckBox();
         Smoothing = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        slider_averging = new javax.swing.JSlider();
+        jPanel8 = new javax.swing.JPanel();
+        slider_gaussian = new javax.swing.JSlider();
+        jPanel10 = new javax.swing.JPanel();
+        slider_median = new javax.swing.JSlider();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -234,15 +241,117 @@ public class Main_Frame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Corrections", Corrections);
 
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Averging"));
+
+        slider_averging.setMajorTickSpacing(1);
+        slider_averging.setMaximum(10);
+        slider_averging.setMinorTickSpacing(1);
+        slider_averging.setPaintTicks(true);
+        slider_averging.setSnapToTicks(true);
+        slider_averging.setToolTipText("");
+        slider_averging.setValue(0);
+        slider_averging.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider_avergingStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(slider_averging, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(slider_averging, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Gaussian"));
+
+        slider_gaussian.setMajorTickSpacing(1);
+        slider_gaussian.setMaximum(10);
+        slider_gaussian.setMinorTickSpacing(1);
+        slider_gaussian.setPaintTicks(true);
+        slider_gaussian.setSnapToTicks(true);
+        slider_gaussian.setToolTipText("");
+        slider_gaussian.setValue(0);
+        slider_gaussian.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider_gaussianStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(slider_gaussian, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(slider_gaussian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Median"));
+
+        slider_median.setMajorTickSpacing(1);
+        slider_median.setMaximum(10);
+        slider_median.setMinorTickSpacing(1);
+        slider_median.setPaintTicks(true);
+        slider_median.setSnapToTicks(true);
+        slider_median.setToolTipText("");
+        slider_median.setValue(0);
+        slider_median.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slider_medianStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(slider_median, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(slider_median, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout SmoothingLayout = new javax.swing.GroupLayout(Smoothing);
         Smoothing.setLayout(SmoothingLayout);
         SmoothingLayout.setHorizontalGroup(
             SmoothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 241, Short.MAX_VALUE)
+            .addGroup(SmoothingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(SmoothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SmoothingLayout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SmoothingLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(SmoothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         SmoothingLayout.setVerticalGroup(
             SmoothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
+            .addGroup(SmoothingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Smooothing", Smoothing);
@@ -344,7 +453,7 @@ public class Main_Frame extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.out.println("Error al guardar la Imagen");
             }
-        } catch (Exception ex) {
+        } catch (HeadlessException ex) {
 
         }
     }//GEN-LAST:event_Save_imgActionPerformed
@@ -404,7 +513,6 @@ public class Main_Frame extends javax.swing.JFrame {
                 previo_ct = actual_ct;
             }
         } catch (Exception e) {
-            System.out.println("algo pasó aiuda :v");
         } finally {
             changeImg(e_mat, e_byte);
         }
@@ -426,7 +534,6 @@ public class Main_Frame extends javax.swing.JFrame {
 
             }
         } catch (Exception e) {
-            System.out.println("anuma");
         } finally {
             changeImg(e_mat, e_byte);
         }
@@ -450,13 +557,74 @@ public class Main_Frame extends javax.swing.JFrame {
                 previo_br = actual_br;
             }
         } catch (Exception e) {
-            System.out.println("algo pasó aiuda :v");
         } finally {
             changeImg(e_mat, e_byte);
         }
         m_tosave = e_mat;
         b_tosave = e_byte;
     }//GEN-LAST:event_slider_brightStateChanged
+
+    private void slider_avergingStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_avergingStateChanged
+        // TODO add your handling code here:
+        Mat e_mat = null;
+        byte[] e_byte = null;
+        try {
+            if (slider_averging.getValue() == 0) {
+                e_mat = img_filters.avergingFilter(byte_original, mat_original);
+                e_byte = img_manager.toBytes(e_mat);
+            } else {
+                e_mat = img_filters.avergingFilter(b_tosave, m_tosave);
+                e_byte = img_manager.toBytes(e_mat);
+            }
+        } catch (Exception e) {
+        } finally {
+            changeImg(e_mat, e_byte);
+        }
+        m_tosave = e_mat;
+        b_tosave = e_byte;
+    }//GEN-LAST:event_slider_avergingStateChanged
+
+    private void slider_gaussianStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_gaussianStateChanged
+        // TODO add your handling code here:
+        Mat e_mat = null;
+        byte[] e_byte = null;
+        try {
+            if (slider_gaussian.getValue() == 0) {
+                e_mat = img_filters.gaussianFilter(byte_original, mat_original);
+                e_byte = img_manager.toBytes(e_mat);
+            } else {
+                e_mat = img_filters.gaussianFilter(b_tosave, m_tosave);
+                e_byte = img_manager.toBytes(e_mat);
+            }
+        } catch (Exception e) {
+        } finally {
+            changeImg(e_mat, e_byte);
+        }
+        m_tosave = e_mat;
+        b_tosave = e_byte;
+    }//GEN-LAST:event_slider_gaussianStateChanged
+
+    private void slider_medianStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slider_medianStateChanged
+        // TODO add your handling code here:
+        Mat e_mat = null;
+        byte[] e_byte = null;
+        try {
+            if (slider_median.getValue() == 0) {
+                e_mat = img_filters.medianFilter(byte_original, mat_original);
+                e_byte = img_manager.toBytes(e_mat);
+            } else {
+                e_mat = img_filters.medianFilter(b_tosave, m_tosave);
+                e_byte = img_manager.toBytes(e_mat);
+            }
+        } catch (Exception e) {
+            System.out.println("errrrooooorrr"
+                    + "");
+        }finally{
+            changeImg(e_mat, e_byte);
+        }
+        m_tosave = e_mat;
+        b_tosave = e_byte;
+    }//GEN-LAST:event_slider_medianStateChanged
 
     /**
      * @param args the command line arguments
@@ -503,17 +671,23 @@ public class Main_Frame extends javax.swing.JFrame {
     private javax.swing.JButton Save_img;
     private javax.swing.JPanel Smoothing;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lb_img_edit;
     private javax.swing.JLabel lb_img_orig;
+    private javax.swing.JSlider slider_averging;
     private javax.swing.JSlider slider_bright;
     private javax.swing.JSlider slider_constrast;
     private javax.swing.JSlider slider_gamma;
+    private javax.swing.JSlider slider_gaussian;
+    private javax.swing.JSlider slider_median;
     // End of variables declaration//GEN-END:variables
 
     private void changeImg(Mat m, byte[] b) {
@@ -541,6 +715,9 @@ public class Main_Frame extends javax.swing.JFrame {
         slider_bright.setValue(0);
         slider_constrast.setValue(0);
         slider_gamma.setValue(0);
+        slider_averging.setValue(0);
+        slider_gaussian.setValue(0);
+        slider_median.setValue(0);
         try {
             mat_original = img_manager.loadImageDir();
             byte_original = img_manager.toBytes(mat_original);
